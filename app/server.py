@@ -305,10 +305,10 @@ def run_server():
     seed_demo_users()
     server_address = (HOST, PORT)
     httpd = http.server.ThreadingHTTPServer(server_address, NovaWorksRequestHandler)
-    print(f"\n=======================================================")
-    print(f"🚀 NovaWorks AI Project Management CRM is running!")
-    print(f"🔗 Local Web Application: http://{HOST}:{PORT}")
-    print(f"=======================================================\n")
+    print(f"\n=======================================================", flush=True)
+    print(f"🚀 NovaWorks AI Project Management CRM is running!", flush=True)
+    print(f"🔗 Local Web Application: http://{HOST}:{PORT}", flush=True)
+    print(f"=======================================================\n", flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
