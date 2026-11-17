@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaWorks Technologies - AI Project Management CRM</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%232563eb'/><text x='50%' y='65%' font-size='50' font-weight='bold' fill='white' text-anchor='middle'>N</text></svg>">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- 1. LOGIN SCREEN -->
+  <div id="login-view" class="login-screen">
+    <div class="login-card">
+      <div class="login-header">
+        <div class="brand-logo" style="margin: 0 auto; width: 48px; height: 48px; font-size: 1.4rem;">NW</div>
+        <h2>NovaWorks Technologies</h2>
+        <p>AI Project Management CRM &bull; Lahore, Pakistan</p>
+      </div>
+
+      <div id="login-error" class="error-box" style="display: none; padding: 10px 14px; margin-bottom: 16px;"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <input type="email" id="login-email" class="form-control" required placeholder="admin@novaworks.example" value="admin@novaworks.example">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" required placeholder="Demo123!" value="Demo123!">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 6px;">Sign In to CRM</button>
+      </form>
+
+      <!-- 1-Click Demo Accounts Switcher -->
+      <div class="quick-login-box">
+        <div class="quick-login-title">Quick Demo Login (1-Click Evaluation)</div>
+        <div class="quick-login-grid">
+          <button class="quick-btn" onclick="switchDemoUser('admin@novaworks.example')">
+            <strong>Admin</strong>
+            <span>Company overview</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('ayesha@novaworks.example')">
+            <strong>PM01: Ayesha Khan</strong>
+            <span>Manager / Web PM</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('bilal@novaworks.example')">
+            <strong>PM02: Bilal Ahmed</strong>
+            <span>Manager / Mobile PM</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('hina@novaworks.example')">
+            <strong>PM03: Hina Malik</strong>
+            <span>Manager / AI PM</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('ali@novaworks.example')">
+            <strong>DEV01: Ali Raza</strong>
+            <span>Agent / Full-Stack</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('hamza@novaworks.example')">
+            <strong>DEV02: Hamza Shah</strong>
+            <span>Agent / Full-Stack</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('sara@novaworks.example')">
+            <strong>DEV03: Sara Noor</strong>
+            <span>Agent / App Developer</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('usman@novaworks.example')">
+            <strong>DEV04: Usman Tariq</strong>
+            <span>Agent / App Developer</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('zain@novaworks.example')">
+            <strong>DEV05: Zain Abbas</strong>
+            <span>Agent / AI Developer</span>
+          </button>
+          <button class="quick-btn" onclick="switchDemoUser('maryam@novaworks.example')">
+            <strong>DEV06: Maryam Asif</strong>
+            <span>Agent / AI Developer</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MAIN APPLICATION VIEW -->
+  <div id="app-view" class="app-container" style="display: none;">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">NW</div>
+        <div class="brand-text">
+          <h1>NovaWorks CRM</h1>
+          <p>AI Project Manager</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <button class="nav-item active" data-view="projects" onclick="navigateTo('projects')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Projects
+        </button>
+        <button class="nav-item" data-view="my-tasks" onclick="navigateTo('my-tasks')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          My Tasks
+        </button>
+        <button class="nav-item" data-view="team" onclick="navigateTo('team')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Team Directory
+        </button>
+        
+        <!-- Admin-only Nav Item -->
+        <button id="nav-create-transcript" class="nav-item" onclick="openTranscriptModal()" style="display: none; margin-top: 12px; background: rgba(59, 130, 246, 0.15); color: #93c5fd; border: 1px dashed rgba(147, 197, 253, 0.3);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Create from Transcript
+        </button>
+      </nav>
+
+      <!-- Sidebar User Profile Widget -->
+      <div class="user-widget">
+        <div class="user-widget-info">
+          <div id="user-avatar" class="user-avatar">A</div>
+          <div class="user-details">
+            <h4 id="user-name">User Name</h4>
+            <div style="display: flex; gap: 6px; align-items: center; margin-top: 2px;">
+              <span id="user-role-badge" class="badge badge-admin">ADMIN</span>
+              <p id="user-spec" style="font-size: 0.72rem; color: #94a3b8; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Switcher Dropdown in App -->
+        <div style="margin-bottom: 10px;">
+          <label style="font-size: 0.7rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">Role Switcher (RBAC Test):</label>
+          <select id="account-switcher-select" class="form-control" style="font-size: 0.76rem; padding: 4px 8px; background: #0f172a; color: #f8fafc; border-color: #334155;" onchange="switchDemoUser(this.value)">
+            <option value="admin@novaworks.example">Admin (Administrator)</option>
+            <option value="ayesha@novaworks.example">PM01: Ayesha (Web PM)</option>
+            <option value="bilal@novaworks.example">PM02: Bilal (Mobile PM)</option>
+            <option value="hina@novaworks.example">PM03: Hina (AI PM)</option>
+            <option value="ali@novaworks.example">DEV01: Ali (React Full-Stack)</option>
+            <option value="hamza@novaworks.example">DEV02: Hamza (Node.js APIs)</option>
+            <option value="sara@novaworks.example">DEV03: Sara (Flutter UI)</option>
+            <option value="usman@novaworks.example">DEV04: Usman (Flutter/Integ)</option>
+            <option value="zain@novaworks.example">DEV05: Zain (AI/LLM)</option>
+            <option value="maryam@novaworks.example">DEV06: Maryam (AI/Docs)</option>
+          </select>
+        </div>
+
+        <button id="btn-logout" class="btn-logout">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Log Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <h2 id="page-title">Client Projects</h2>
+          <p id="page-subtitle">Project roadmap and task assignments</p>
+        </div>
+        <div id="topbar-actions" class="topbar-actions"></div>
+      </header>
+
+      <!-- Content Area -->
+      <main id="content-area" class="content-area"></main>
+    </div>
+  </div>
+
+  <!-- 3. TRANSCRIPT AUTOMATION MODAL -->
+  <div id="transcript-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div>
+          <h3>Create Projects & Tasks from Transcript</h3>
+          <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">
+            AI automatically extracts projects, matches directory users, sets deadlines, and filters rejected features.
+          </p>
+        </div>
+        <button class="modal-close" onclick="closeTranscriptModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="transcript-error" class="error-box" style="display: none;"></div>
+
+        <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadSuppliedTranscript()">
+            📋 Load Standard 60-min Transcript
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="loadModifiedTranscript()">
+            ⚡ Load Modified Transcript (QuickServe 12h / 23 Oct)
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('transcript-input').value = ''">
+            Clear
+          </button>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="transcript-input">Meeting Transcript or Discussion Notes:</label>
+          <textarea id="transcript-input" class="form-control" placeholder="Paste your planning meeting transcript here..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="closeTranscriptModal()">Cancel</button>
+        <button type="button" id="btn-process-transcript" class="btn btn-primary" onclick="processTranscript()">
+          Process & Generate Projects
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Scripts -->
+  <script src="/js/transcript.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>
