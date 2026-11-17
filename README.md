@@ -153,18 +153,6 @@ Follow these steps to evaluate the application against the challenge requirement
 
 ---
 
-## 🌐 Deployment Guide
-
-### Deployment Options:
-1. **Hosted Container / Virtual Machine (Render / Railway / DigitalOcean / AWS EC2)**:
-   - Command: `python main.py`
-   - Port: Set `PORT` environment variable (e.g. `PORT=8080`).
-   - SQLite database persists on a persistent volume mount, or connect to hosted PostgreSQL using an adapter.
-2. **Hosted PostgreSQL (Aiven Free PostgreSQL)**:
-   - Aiven PostgreSQL connection URL can be passed in `DATABASE_URL`. The schema is ANSI SQL compliant and runs seamlessly on both SQLite and PostgreSQL.
-
----
-
 ## 📄 License & Evaluation Note
 Submitted for **THE INFINITY HACK ’26 | AI Project Manager Challenge**.  
 All fictional employee names, client names, and transcripts are part of the challenge specification.
